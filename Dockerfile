@@ -188,6 +188,12 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
     freetype-dev \
     sqlite-dev \
     libjpeg-turbo-dev && \
+    #download swoole
+    wget -O /tmp/swoole-2.1.3.tgz http://pecl.php.net/get/swoole-2.1.3.tgz && \
+    tar -zxf /tmp/swoole-2.1.3.tgz -C /tmp/ && \
+    mkdir -p /usr/src/php /usr/src/php/ext && \
+    mv /tmp/swoole-2.1.3 /usr/src/php/ext/swoole && \
+    rm -rf /tmp/swoole-2.1.3.tgz /tmp/package.xml && \
     docker-php-ext-configure gd \
       --with-gd \
       --with-freetype-dir=/usr/include/ \
@@ -195,7 +201,7 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
       --with-jpeg-dir=/usr/include/ && \
     #curl iconv session
     #docker-php-ext-install pdo_mysql pdo_sqlite mysqli mcrypt gd exif intl xsl json soap dom zip opcache && \
-    docker-php-ext-install iconv pdo_mysql pdo_sqlite mysqli gd exif intl xsl json soap dom zip opcache && \
+    docker-php-ext-install iconv pdo_mysql pdo_sqlite mysqli gd exif intl xsl json soap dom zip opcache pcntl swoole && \
     #pecl install xdebug && \
     docker-php-source delete && \
     mkdir -p /etc/nginx && \
