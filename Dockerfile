@@ -194,6 +194,12 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
     mkdir -p /usr/src/php /usr/src/php/ext && \
     mv /tmp/swoole-2.1.3 /usr/src/php/ext/swoole && \
     rm -rf /tmp/swoole-2.1.3.tgz /tmp/package.xml && \
+    #download redis
+    wget -O /tmp/redis-4.0.2.tgz http://pecl.php.net/get/redis-4.0.2.tgz && \
+    tar -zxf /tmp/redis-4.0.2.tgz -C /tmp/ && \
+    mkdir -p /usr/src/php /usr/src/php/ext && \
+    mv /tmp/redis-4.0.2 /usr/src/php/ext/redis && \
+    rm -rf /tmp/redis-4.0.2.tgz /tmp/package.xml && \
     docker-php-ext-configure gd \
       --with-gd \
       --with-freetype-dir=/usr/include/ \
@@ -201,7 +207,7 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
       --with-jpeg-dir=/usr/include/ && \
     #curl iconv session
     #docker-php-ext-install pdo_mysql pdo_sqlite mysqli mcrypt gd exif intl xsl json soap dom zip opcache && \
-    docker-php-ext-install iconv pdo_mysql pdo_sqlite mysqli gd exif intl xsl json soap dom zip opcache pcntl swoole && \
+    docker-php-ext-install iconv pdo_mysql pdo_sqlite mysqli gd exif intl xsl json soap dom zip opcache pcntl swoole redis && \
     #pecl install xdebug && \
     docker-php-source delete && \
     mkdir -p /etc/nginx && \
