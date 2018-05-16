@@ -1,4 +1,4 @@
-FROM php:7.2.4-fpm-alpine
+FROM php:5.6.36-fpm-alpine
 
 LABEL maintainer="blooddong@gmail.com"
 
