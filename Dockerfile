@@ -200,6 +200,13 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
     mkdir -p /usr/src/php /usr/src/php/ext && \
     mv /tmp/redis-4.0.2 /usr/src/php/ext/redis && \
     rm -rf /tmp/redis-4.0.2.tgz /tmp/package.xml && \
+    #download mongodb
+    wget -O /tmp/mongodb-1.5.0.tgz http://pecl.php.net/get/mongodb-1.5.0.tgz && \
+    tar -zxf /tmp/mongodb-1.5.0.tgz -C /tmp/ && \
+    mkdir -p /usr/src/php /usr/src/php/ext && \
+    mv /tmp/mongodb-1.5.0 /usr/src/php/ext/mongodb && \
+    rm -rf /tmp/mongodb-1.5.0.tgz /tmp/package.xml && \
+
     docker-php-ext-configure gd \
       --with-gd \
       --with-freetype-dir=/usr/include/ \
@@ -208,6 +215,8 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
     #curl iconv session
     #docker-php-ext-install pdo_mysql pdo_sqlite mysqli mcrypt gd exif intl xsl json soap dom zip opcache sockets && \
     docker-php-ext-install iconv pdo_mysql pdo_sqlite mysqli gd exif intl xsl json soap dom zip opcache sockets pcntl swoole redis && \
+    docker-php-ext-configure mongodb && \
+    docker-php-ext-install mongodb && \
     #pecl install xdebug && \
     docker-php-source delete && \
     mkdir -p /etc/nginx && \
