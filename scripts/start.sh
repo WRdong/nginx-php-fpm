@@ -135,7 +135,10 @@ if [[ "$RUN_SCRIPTS" == "1" ]] ; then
   fi
 fi
 
-alias ll="ls -l" \
+# alias
+alias ll="ls -l"
+
+# Start crond service
 crond
 
 # Start supervisord and services
