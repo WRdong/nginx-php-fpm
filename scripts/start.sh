@@ -135,6 +135,9 @@ if [[ "$RUN_SCRIPTS" == "1" ]] ; then
   fi
 fi
 
+alias ll="ls -l" \
+crond
+
 # Start supervisord and services
 exec /usr/bin/supervisord -n -c /etc/supervisord.conf
 
