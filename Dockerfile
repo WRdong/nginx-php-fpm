@@ -206,6 +206,22 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
     mkdir -p /usr/src/php /usr/src/php/ext && \
     mv /tmp/mongodb-1.5.0 /usr/src/php/ext/mongodb && \
     rm -rf /tmp/mongodb-1.5.0.tgz /tmp/package.xml && \
+    #uuid
+    #download libuuid-dev  and install
+    wget -O /tmp/libuuid-1.0.3.tar.gz http://nchc.dl.sourceforge.net/project/libuuid/libuuid-1.0.3.tar.gz && \
+    tar -zxf /tmp/libuuid-1.0.3.tar.gz -C /tmp/ && \
+    cd /tmp/libuuid-1.0.3 && \
+    ./configure && \
+    make && make install && \
+    rm -rf /tmp/libuuid-1.0.3.tar.gz /tmp/libuuid-1.0.3 && \
+    #download uuid
+    wget -O /tmp/uuid-1.0.4.tgz  http://pecl.php.net/get/uuid-1.0.4.tgz && \
+    tar  -zxf /tmp/uuid-1.0.4.tgz  -C /tmp/ && \
+    mkdir -p /usr/src/php /usr/src/php/ext && \
+    mv /tmp/uuid-1.0.4  /usr/src/php/ext/uuid && \
+    rm -rf /tmp/uuid-1.0.4 /tmp/package.xml && \
+
+
 
     docker-php-ext-configure gd \
       --with-gd \
@@ -214,7 +230,7 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
       --with-jpeg-dir=/usr/include/ && \
     #curl iconv session
     #docker-php-ext-install pdo_mysql pdo_sqlite mysqli mcrypt gd exif intl xsl json soap dom zip opcache sockets && \
-    docker-php-ext-install iconv pdo_mysql pdo_sqlite mysqli gd exif intl xsl json soap dom zip opcache sockets pcntl swoole redis && \
+    docker-php-ext-install iconv pdo_mysql pdo_sqlite mysqli gd exif intl xsl json soap dom zip opcache sockets pcntl swoole redis uuid && \
     docker-php-ext-configure mongodb && \
     docker-php-ext-install mongodb && \
     #pecl install xdebug && \
