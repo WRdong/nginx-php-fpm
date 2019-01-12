@@ -109,6 +109,11 @@ if [ ! -z "$PHP_UPLOAD_MAX_FILESIZE" ]; then
  sed -i "s/upload_max_filesize = 100M/upload_max_filesize= ${PHP_UPLOAD_MAX_FILESIZE}M/g" /usr/local/etc/php/conf.d/docker-vars.ini
 fi
 
+#disable redis extension
+if [ ! -f /usr/local/etc/php/conf.d/docker-php-ext-redis.ini ]; then
+  sed  -i "s/extension=redis.so/#extension=redis.so/g" /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
+fi
+
 
 if [ ! -z "$PUID" ]; then
   if [ -z "$PGID" ]; then
@@ -135,7 +140,7 @@ if [[ "$RUN_SCRIPTS" == "1" ]] ; then
   fi
 fi
 
-# Start crond service
+#  Start crond service
 crond
 
 # Start supervisord and services
